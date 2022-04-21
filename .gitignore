@@ -1,0 +1,9 @@
+node_modules
+package-lock.json
+.eslintcache
+.nyc_output
+
+# JetBrains IDEs
+.idea
+# Visual Studio Code
+.vscode

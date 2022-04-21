@@ -1,0 +1,30 @@
+{
+  "name": "graphql-auto-federate",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "test": "tap test/*.test.js",
+    "prepare": "husky install"
+  },
+  "keywords": [],
+  "author": "Simone Sanfratello <simone.sanfratello@nearform.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@commitlint/cli": "^16.2.3",
+    "@commitlint/config-conventional": "^16.2.1",
+    "eslint": "^8.13.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "fastify": "^3.28.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.8",
+    "mercurius": "^9.3.6",
+    "prettier": "^2.6.2",
+    "tap": "^16.0.1"
+  },
+  "lint-staged": {
+    "*.{js,jsx}": "eslint --cache --fix"
+  }
+}
