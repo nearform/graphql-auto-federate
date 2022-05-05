@@ -354,7 +354,7 @@ const cases = [
     ]
   }
 
-  // TODO fragment, named queries, alias
+  // TODO fragment, alias
 ]
 
 for (const { name, services, queries } of cases) {

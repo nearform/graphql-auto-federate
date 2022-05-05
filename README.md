@@ -219,6 +219,9 @@ options: {
 }
 ```
 
+TODO resolve reference
+
+
 ---
 
 ## Supported features
@@ -237,16 +240,18 @@ Automatic generation of federated schema supports
 
 v 0.1
 
-- [ ] `__resolveReference` example
-  - [ ] provide `graphqlQuery` as param
+- [ ] doc `__resolveReference` example
+  - [ ] how to use
+  - [ ] all federated resolvers have `forward` binded to original service `url`
 - [ ] release @ npm (optic)
 
 v. 0.2
 
 - [ ] param validations
 - [ ] `options.loaders`
+- [ ] headers in `graphqlRequest`
 - [ ] 100% test coverage
-  - [ ] forwarded queries with fragment, named queries, alias (probably already supported, write test)
+  - [ ] forwarded queries with fragmentes and alias (probably already supported, write test)
 - [ ] use a model for __resolveReference `{ query, variables, transform (jsonata) }`
 - [ ] examples
 - [ ] support subscriptions in schema/resolvers
