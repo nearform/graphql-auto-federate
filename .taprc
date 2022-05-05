@@ -2,4 +2,4 @@ coverage: true
 statements: 90
 branches: 80
 lines: 90
-functions: 95
+functions: 90
