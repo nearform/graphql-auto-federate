@@ -24,4 +24,4 @@ jobs:
           github-token: ${{ secrets.github_token }}
           semver: ${{ github.event.inputs.semver }}
           commit-message: 'chore: release {version}'
-          build-command: npm i
+          build-command: npm ci
