@@ -141,7 +141,7 @@ const cases = [
           fullName: String
           friends: [User]
         }
-      `,
+        `,
         resolvers: {
           Query: {
             getUser: (_, args) => {

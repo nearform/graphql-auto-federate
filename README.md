@@ -44,7 +44,35 @@ Given an existing GraphQL service, `graphql-auto-federate` reads the schema and 
 `graphql-auto-federate` can discover as much information as possible from the original service schema, anyway, more information should be provided to make it works properly.
 It depends on the original schema, it may work out-of-the-box in a few cases, but usually should be added `__resolveReference` resolvers and `@directive` for the entity types (see [options](#options).
 
-See examples (TODO examples and link)
+### __resolveReference
+
+`__resolveReference` resolver is crucial for the make the federate service works properly.
+Implementing `__resolveReference` for entities in this context (a "proxy" to federate an existing service) is not trivial and strongly depends on the schema and entities provided by the original service.
+
+A special `forward` function is provided further with regular arguments to facilitate querying the original service (errors are already managed).
+
+Example
+
+```js
+options: {
+  resolvers: {
+    User: {
+      __resolveReference: async (self, args, context, info, forward) => {
+        const response = await forward({
+          query: `{ getUser (id: ${self.id}) { name, fullName } }`
+        })
+
+        return {
+          ...response.getUser,
+          ...self,
+        }
+      }
+    }
+  }
+}
+```
+
+Note: in some cases, `__resolveReference` is even redundant, for example in `Query` resolvers, the original service provides all the needed information without needing to call `__resolveReference` again.
 
 ---
 
@@ -129,7 +157,7 @@ generated federated resolvers are
     deleteUser: (...) => // forward query
   },
   User: { 
-    __resolveReference: () => // TODO define default __resolveReference behaviour
+    __resolveReference: (self) => { console.warn('__resolveReference called', self) }
   }
 }
 ```
@@ -138,7 +166,7 @@ generated federated resolvers are
 
 the `url` of the original GraphQL service
 
-#### options (optional)
+#### options
 
 - **auto** (boolean)
 
@@ -201,27 +229,6 @@ type User @key(fields: "id") @external {
 
 Provide `resolvers`, merged (and override) the `auto` discovered ones if any.
 
-```js
-options: {
-  resolvers: {
-    User: {
-      __resolveReference: async (user) => {
-        // TODO define __resolveReference, args ...
-        return graphqlQuery({ 
-          query: `query resolveUser ($id: ID!) {
-            getUser (id: $id) { id, name, fullName }
-          }`,
-          variables: { id: user.id }
-        })
-      }
-    }
-  }
-}
-```
-
-TODO resolve reference
-
-
 ---
 
 ## Supported features
@@ -238,22 +245,18 @@ Automatic generation of federated schema supports
 
 ## TODO
 
-v 0.1
-
-- [ ] doc `__resolveReference` example
-  - [ ] how to use
-  - [ ] all federated resolvers have `forward` binded to original service `url`
-- [ ] release @ npm (optic)
-
 v. 0.2
 
 - [ ] param validations
 - [ ] `options.loaders`
 - [ ] headers in `graphqlRequest`
+- [ ] improve `__resolveReference` resolution
+  - [ ] provide fields that need to be resolved (from `context.__currentQuery`?)
+  - [ ] (from mercurius gateway) do not query `__resolveReference` if not necessary
 - [ ] 100% test coverage
   - [ ] forwarded queries with fragmentes and alias (probably already supported, write test)
 - [ ] use a model for __resolveReference `{ query, variables, transform (jsonata) }`
-- [ ] examples
+- [ ] more advanced examples in "How it works" section
 - [ ] support subscriptions in schema/resolvers
 - [ ] comments in federated schema
 - [ ] jsdoc and type check

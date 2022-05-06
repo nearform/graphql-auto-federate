@@ -28,7 +28,6 @@ const cases = [
           auto: true,
           resolvers: {
             User: {
-              // TODO doc
               __resolveReference: async (
                 self,
                 args,
@@ -37,12 +36,12 @@ const cases = [
                 forward
               ) => {
                 const response = await forward({
-                  query: `{ getUser (id: ${self.id}) { name, friends { id, name } } }`
+                  query: `{ getUser (id: ${self.id}) { name, fullName, friends { id, name } } }`
                 })
 
                 return {
-                  ...self,
-                  ...response.getUser
+                  ...response.getUser,
+                  ...self
                 }
               }
             }
@@ -56,7 +55,15 @@ const cases = [
           getUser (id: ID!): User
           getUsers (ids: [ID!]!): [User]!
         }
+
+        type Mutation {
+          createUser (user: InputUser): User
+        }
         
+        input InputUser {
+          name: String!
+        }
+
         type Post {
           id: ID!
           title: String!
@@ -80,6 +87,14 @@ const cases = [
             },
             getPosts: () => {
               return Object.values(db.posts)
+            }
+          },
+          Mutation: {
+            createUser: (_, { user: inputUser }) => {
+              const id = Object.keys(db.users).length + 1
+              const user = { id, ...inputUser }
+              db.users[id] = user
+              return user
             }
           },
           User: {
@@ -137,6 +152,18 @@ const cases = [
               }
             }
           ]
+        }
+      },
+
+      {
+        query:
+          'mutation { createUser (user: {name: "Gus"}) { id, name, fullName } }',
+        expected: {
+          createUser: {
+            id: '5',
+            name: 'Gus',
+            fullName: 'Gus'
+          }
         }
       }
     ]
