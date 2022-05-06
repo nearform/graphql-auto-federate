@@ -110,7 +110,9 @@ for (const { name, schema, resolvers, queries, options } of cases) {
       ...buildFederatedInfo({ schema, resolvers, options })
     })
     gateway = await helper.createGatewayService({
-      services: [{ url: `http://localhost:${federated.port}/graphql` }]
+      services: [
+        { name: '*', url: `http://localhost:${federated.port}/graphql` }
+      ]
     })
 
     const gatewayUrl = `http://localhost:${gateway.port}/graphql`

@@ -200,7 +200,7 @@ for (const { name, services, queries } of cases) {
     }
     gateway = await helper.createGatewayService({
       services: federateds.map((f, i) => ({
-        name: i,
+        name: `service${i + 1}`,
         url: `http://localhost:${f.port}/graphql`
       }))
     })

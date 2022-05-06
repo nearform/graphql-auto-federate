@@ -23,7 +23,7 @@ await federatedService.listen(3001)
 
 const gateway = fastify()
 gateway.register(mercurius, {
-  services: [{ url: `http://localhost:3001/graphql` }],
+  services: [{ name: 'auto', url: `http://localhost:3001/graphql` }],
   jit: 1
 })
 await gateway.listen(3000)

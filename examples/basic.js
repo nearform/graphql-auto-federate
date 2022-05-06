@@ -35,7 +35,9 @@ async function main() {
 
   const gateway = fastify()
   gateway.register(mercurius, {
-    gateway: { services: [{ url: `http://localhost:3001/graphql` }] },
+    gateway: {
+      services: [{ name: 'auto', url: `http://localhost:3001/graphql` }]
+    },
     graphiql: true,
     jit: 1
   })
