@@ -30,28 +30,27 @@ await gateway.listen(3000)
 
 // query the gateway @ port 3000
 // curl -X POST -H 'content-type: application/json' -d '{ "query": "{ hello(greeting: \"ciao\") }" }' localhost:3000/graphql
-
 ```
 
 ## How it works
 
-Given an existing GraphQL service, `graphql-auto-federate` reads the schema and build a new service with federation info that acts as a proxy, forwarding requests to the original service.
+Given an existing GraphQL service, `graphql-auto-federate` reads the schema and builds a new service with federation information that acts as a proxy, forwarding requests to the original service:
 
 ```txt
 ( gateway ) --> ( federated "proxy" service ) --> ( original service )
 ```
 
-`graphql-auto-federate` can discover as much information as possible from the original service schema, anyway, more information should be provided to make it works properly.
-It depends on the original schema, it may work out-of-the-box in a few cases, but usually should be added `__resolveReference` resolvers and `@directive` for the entity types (see [options](#options).
+`graphql-auto-federate` discovers as much information as possible from the original service schema, but additional information is typically required for working federation.
 
-### __resolveReference
+This can be achieved by specifying `__resolveReference` resolvers and directives for entity types (see [options](#options)).
 
-`__resolveReference` resolver is crucial for the make the federate service works properly.
-Implementing `__resolveReference` for entities in this context (a "proxy" to federate an existing service) is not trivial and strongly depends on the schema and entities provided by the original service.
+### \_\_resolveReference
 
-A special `forward` function is provided further with regular arguments to facilitate querying the original service (errors are already managed).
+The `__resolveReference` resolver is critical for a working federated service. Implementing `__resolveReference` for entities in this context (a "proxy" to federate an existing service) is not trivial and strongly depends on the schema and entities provided by the original service.
 
-Example
+A special `forward` function is provided along with the regular resolver arguments to facilitate querying the original service (errors are already managed).
+
+#### Example
 
 ```js
 options: {
@@ -64,7 +63,7 @@ options: {
 
         return {
           ...response.getUser,
-          ...self,
+          ...self
         }
       }
     }
@@ -72,7 +71,7 @@ options: {
 }
 ```
 
-Note: in some cases, `__resolveReference` is even redundant, for example in `Query` resolvers, the original service provides all the needed information without needing to call `__resolveReference` again.
+Note: in some cases, `__resolveReference` is redundant, for example in `Query` resolvers, the original service provides all of the required information without needing to call `__resolveReference` again.
 
 ---
 
@@ -82,25 +81,27 @@ Note: in some cases, `__resolveReference` is even redundant, for example in `Que
 
 `buildFederatedService ({ url, options }) => { schema, resolvers }`
 
-It creates the `{ schema, resolvers }` information to build the federated service.
-It performs an `introspection query` to the original service, then elaborates the information to get the federated `schema` and `resolvers`.
-`options` should contain additional information for `type` and `resolvers`, that are merged (and override) with the discovered ones.
+Creates the `{ schema, resolvers }` information to build the federated service.
 
-Example
+It performs an `introspection query` to the original service, then augments the schema to produce a federated `schema` and `resolvers`.
 
-from original service schema
+`options` should contain additional information for `type` and `resolvers`, that are merged and override those that are discovered.
+
+#### Example
+
+From the original service schema:
 
 ```gql
 type Query {
-  getUser (id: ID!): User
+  getUser(id: ID!): User
   getUsers: [User]!
-}      
+}
 
 type Mutation {
-  createUser (user: InputUser): User
-  updateUser (id: ID!, user: InputUser): User
-  deleteUser (id: ID!): ID
-}      
+  createUser(user: InputUser): User
+  updateUser(id: ID!, user: InputUser): User
+  deleteUser(id: ID!): ID
+}
 
 input InputUser {
   name: String!
@@ -116,21 +117,21 @@ type User {
 
 ```js
 const { schema, resolvers } = await buildFederatedService({
-  url: `http://original-service:1234/graphql` 
+  url: `http://original-service:1234/graphql`
 })
 ```
 
-generated federated schema is
+Generated federated schema is:
 
 ```gql
 extend type Query {
-  getUser (id: ID!): User
+  getUser(id: ID!): User
   getUsers: [User]!
 }
 extend type Mutation {
-  createUser (user: InputUser): User
-  updateUser (id: ID!, user: InputUser): User
-  deleteUser (id: ID!): ID
+  createUser(user: InputUser): User
+  updateUser(id: ID!, user: InputUser): User
+  deleteUser(id: ID!): ID
 }
 input InputUser {
   name: String!
@@ -143,7 +144,7 @@ type User @key(fields: "id") {
 }
 ```
 
-generated federated resolvers are
+Generated federated resolvers are:
 
 ```js
 {
@@ -156,7 +157,7 @@ generated federated resolvers are
     updateUser: (...) => // forward query
     deleteUser: (...) => // forward query
   },
-  User: { 
+  User: {
     __resolveReference: (self) => { console.warn('__resolveReference called', self) }
   }
 }
@@ -174,20 +175,20 @@ the `url` of the original GraphQL service
 
 - **type**
 
-Inject information to type definition schema, adding `@extend` or `@directives` for entity types, merged (and override) the `auto` discovered ones if any.
+Inject information to the type definition schema, adding `@extend` or `@directives` for entity types. These are merged with (and override) the `auto` discovered ones if any.
 
 - `@extend` (boolean) add "extend" to the type
 - `@directives` (string) add directives as a string to the type, see [federation spec](https://www.apollographql.com/docs/federation/federation-spec/#federation-schema-specification) for supported directives
 
-Example
+#### Example
 
-from original service schema
+From original service schema:
 
 ```gql
 type Query {
-  getUser (id: ID!): User
+  getUser(id: ID!): User
   getUsers: [User]!
-}      
+}
 type User {
   id: ID!
   name: String!
@@ -195,7 +196,7 @@ type User {
 }
 ```
 
-using options
+Using options:
 
 ```js
 options: {
@@ -211,11 +212,11 @@ options: {
 }
 ```
 
-generated federated schema
+Generated federated schema:
 
 ```gql
 extend type Query {
-  getUser (id: ID!): User
+  getUser(id: ID!): User
   getUsers: [User]!
 }
 type User @key(fields: "id") @external {
@@ -227,7 +228,7 @@ type User @key(fields: "id") @external {
 
 - **resolvers**
 
-Provide `resolvers`, merged (and override) the `auto` discovered ones if any.
+Provide `resolvers`, these are merged with (and override) the `auto` discovered ones if any.
 
 ---
 
@@ -245,17 +246,16 @@ Automatic generation of federated schema supports
 
 ## TODO
 
-v. 0.2
+v. next
 
-- [ ] param validations
 - [ ] `options.loaders`
 - [ ] headers in `graphqlRequest`
 - [ ] improve `__resolveReference` resolution
   - [ ] provide fields that need to be resolved (from `context.__currentQuery`?)
   - [ ] (from mercurius gateway) do not query `__resolveReference` if not necessary
 - [ ] 100% test coverage
-  - [ ] forwarded queries with fragmentes and alias (probably already supported, write test)
-- [ ] use a model for __resolveReference `{ query, variables, transform (jsonata) }`
+  - [ ] forwarded queries with fragments and alias (probably already supported, write tests)
+- [ ] use a model for `__resolveReference` - `{ query, variables, transform (jsonata) }`
 - [ ] more advanced examples in "How it works" section
 - [ ] support subscriptions in schema/resolvers
 - [ ] comments in federated schema
