@@ -18,7 +18,32 @@ const failureCases = [
   {
     name: 'auto boolean',
     options: { auto: '' },
-    expected: 'auto must be a boolean'
+    expected: 'options auto must be a boolean'
+  },
+  {
+    name: 'type must be an object',
+    options: { type: '' },
+    expected: 'options type must be an object'
+  },
+  {
+    name: 'type entry must be an object',
+    options: { type: { Query: '' } },
+    expected: `options type 'Query' value must be an object`
+  },
+  {
+    name: 'type entry must contain valid key',
+    options: { type: { Query: { '@invalid': true } } },
+    expected: `options type 'Query' value must contain a valid key, one of '@extend', '@directives'`
+  },
+  {
+    name: 'type entry @extend must be a boolean',
+    options: { type: { Query: { '@extend': '' } } },
+    expected: `options type 'Query' value '@extend' must be a boolean`
+  },
+  {
+    name: 'type entry @directives must be a string',
+    options: { type: { Query: { '@directives': false } } },
+    expected: `options type 'Query' value '@directives' must be a string`
   }
 ]
 
