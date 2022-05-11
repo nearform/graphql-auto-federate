@@ -246,8 +246,6 @@ Automatic generation of federated schema supports
 
 ## TODO
 
-v. next
-
 - [ ] `options.loaders`
 - [ ] headers in `graphqlRequest`
 - [ ] improve `__resolveReference` resolution
