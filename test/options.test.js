@@ -44,6 +44,21 @@ const failureCases = [
     name: 'type entry @directives must be a string',
     options: { type: { Query: { '@directives': false } } },
     expected: `options type 'Query' value '@directives' must be a string`
+  },
+  {
+    name: 'resolvers must be an object',
+    options: { resolvers: '' },
+    expected: 'options resolvers must be an object'
+  },
+  {
+    name: 'resolvers entry must be an object',
+    options: { resolvers: { User: '' } },
+    expected: `options resolvers 'User' value must be an object`
+  },
+  {
+    name: 'resolvers entry must have a reference resolver',
+    options: { resolvers: { User: {} } },
+    expected: `options resolvers 'User' value must have a reference resolver`
   }
 ]
 
