@@ -40,7 +40,7 @@ Given an existing GraphQL service, `graphql-auto-federate` reads the schema and 
 ( gateway ) --> ( federated "proxy" service ) --> ( original service )
 ```
 
-`graphql-auto-federate` discovers as much information as possible from the original service schema, but additional information is typically required for working federation.
+`graphql-auto-federate` discovers as much information as possible from the original service schema, but additional information is typically required for a working federated service.
 
 This can be achieved by specifying `__resolveReference` resolvers and directives for entity types (see [options](#options)).
 
