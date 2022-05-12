@@ -1,6 +1,6 @@
 {
   "name": "graphql-auto-federate",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Automatically federate a GraphQL service",
   "main": "index.js",
   "scripts": {
