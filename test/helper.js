@@ -3,12 +3,11 @@
 const fastify = require('fastify')
 const mercurius = require('mercurius')
 const undici = require('undici')
-const getPort = require('get-port')
 
 const helper = {
   async createService({ port, schema, resolvers, loaders }) {
     if (!port) {
-      port = await getPort()
+      port = await (await import('get-port')).default()
     }
     const service = fastify()
 
@@ -23,7 +22,7 @@ const helper = {
   },
   async createFederatedService({ port, schema, resolvers, loaders }) {
     if (!port) {
-      port = await getPort()
+      port = await (await import('get-port')).default()
     }
     const service = fastify()
 
@@ -39,7 +38,7 @@ const helper = {
   },
   async createGatewayService({ port, services }) {
     if (!port) {
-      port = await getPort()
+      port = await (await import('get-port')).default()
     }
     const service = fastify()
 
