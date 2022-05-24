@@ -42,7 +42,7 @@ const cases = [
   },
 
   {
-    name: 'should federate an basic service with a custom type',
+    name: 'should federate a basic service with a custom type',
     schema: dedent`
     type Query {
       me: User
@@ -78,7 +78,7 @@ const cases = [
   },
 
   {
-    name: 'should federate an basic service with @key directive',
+    name: 'should federate a basic service with @key directive',
     schema: dedent`
     type Query {
       me: User
@@ -117,7 +117,7 @@ const cases = [
   },
 
   {
-    name: 'should federate an basic service with enum',
+    name: 'should federate a basic service with enum',
     schema: dedent`
     type Query {
       me: User
@@ -162,7 +162,7 @@ const cases = [
   },
 
   {
-    name: 'should federate an complete service with mutations and directives',
+    name: 'should federate a complete service with mutations and directives',
     schema: dedent`
     type Post {
       pid: ID!

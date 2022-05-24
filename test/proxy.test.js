@@ -20,7 +20,7 @@ const db = {
 
 const cases = [
   {
-    name: 'should federate an "hello world" service',
+    name: 'should federate a "hello world" service',
     services: [
       {
         schema: dedent`
@@ -56,7 +56,7 @@ const cases = [
   },
 
   {
-    name: 'should federate an basic service with a custom type',
+    name: 'should federate a basic service with a custom type',
     services: [
       {
         schema: dedent`
@@ -73,9 +73,7 @@ const cases = [
       `,
         resolvers: {
           Query: {
-            me: () => {
-              return db.users[1]
-            },
+            me: () => db.users[1],
             you: () => db.users[2]
           },
           User: {
@@ -115,21 +113,21 @@ const cases = [
   },
 
   {
-    name: 'should federate an basic service with queries and mutations',
+    name: 'should federate a basic service with queries and mutations',
     services: [
       {
-        schema: dedent`    
+        schema: dedent`
         type Query {
           getUser (id: ID!): User
           getUsers: [User]!
-        }      
+        }
 
         type Mutation {
           setHello: String
           createUser (user: InputUser): User
           updateUser (id: ID!, user: InputUser): User
           deleteUser (id: ID!): ID
-        }      
+        }
 
         input InputUser {
           name: String!
@@ -255,14 +253,14 @@ const cases = [
         type Query {
           me: User
           you: User
-        }        
+        }
         type User {
           id: ID!
           name: String!
           fullName: String
           avatar(size: AvatarSize): String
           friends: [User]
-        }        
+        }
         enum AvatarSize {
           small
           medium
@@ -296,7 +294,7 @@ const cases = [
           pid: ID!
           title: String
           content: String
-        }      
+        }
         input PostInput {
           title: String!
           content: String!
@@ -304,10 +302,10 @@ const cases = [
         }
         type Query {
           topPosts(count: Int): [Post]
-        }      
+        }
         type Mutation {
           createPost(post: PostInput!): Post
-        }      
+        }
         `,
         resolvers: {
           Query: {
@@ -352,9 +350,132 @@ const cases = [
         }
       }
     ]
-  }
+  },
 
-  // TODO fragment, alias
+  {
+    name: 'should federate a basic service with queries that use fragments',
+    services: [
+      {
+        schema: dedent`
+        type Query {
+          me: User
+        }
+        type User {
+          id: ID!
+          name: String!
+          fullName: String
+          friends: [User]
+        }
+      `,
+        resolvers: {
+          Query: {
+            me: () => db.users[1]
+          },
+          User: {
+            friends: () => [db.users[3]],
+            fullName: user => user.fullName || user.name
+          }
+        }
+      }
+    ],
+    queries: [
+      {
+        query: dedent`
+        fragment CoreUserFields on User {
+          id
+          fullName
+        }
+        query {
+          me {
+            name
+            ...CoreUserFields
+            friends {
+              ...CoreUserFields
+            }
+          }
+        }`,
+        expected: {
+          me: {
+            id: '1',
+            name: 'Jimmy',
+            fullName: 'James Morgan McGill',
+            friends: [{ id: '3', fullName: 'Amigo del cartel' }]
+          }
+        }
+      }
+    ]
+  },
+
+  {
+    name: 'should federate a basic service with an aliased query',
+    services: [
+      {
+        schema: dedent`
+        type Query {
+          me: User
+        }
+        type User {
+          id: ID!
+          name: String!
+        }
+      `,
+        resolvers: {
+          Query: {
+            me: () => db.users[1]
+          }
+        }
+      }
+    ],
+    queries: [
+      {
+        query: '{ user: me { id, name } }',
+        expected: {
+          user: {
+            id: '1',
+            name: 'Jimmy'
+          }
+        }
+      }
+    ]
+  },
+
+  {
+    name: 'should federate a basic service with aliased results',
+    services: [
+      {
+        schema: dedent`
+        type Query {
+          getUser (id: ID!): User
+        }
+        type User {
+          id: ID!
+          name: String!
+        }
+      `,
+        resolvers: {
+          Query: {
+            getUser: (_, args) => db.users[args.id]
+          }
+        }
+      }
+    ],
+    queries: [
+      {
+        query:
+          '{ jimmy: getUser (id: "1") { id, name }, kim: getUser (id: "2") { id, name } }',
+        expected: {
+          jimmy: {
+            id: '1',
+            name: 'Jimmy'
+          },
+          kim: {
+            id: '2',
+            name: 'Kim'
+          }
+        }
+      }
+    ]
+  }
 ]
 
 for (const { name, services, queries } of cases) {

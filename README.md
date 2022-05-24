@@ -252,10 +252,10 @@ Automatic generation of federated schema supports
   - [ ] provide fields that need to be resolved (from `context.__currentQuery`?)
   - [ ] (from mercurius gateway) do not query `__resolveReference` if not necessary
 - [ ] 100% test coverage
-  - [ ] forwarded queries with fragments and alias (probably already supported, write tests)
 - [ ] use a model for `__resolveReference` - `{ query, variables, transform (jsonata) }`
 - [ ] more advanced examples in "How it works" section
 - [ ] support subscriptions in schema/resolvers
 - [ ] comments in federated schema
 - [ ] jsdoc and type check
 - [ ] expose `buildFederatedInfo` and document it
+- [ ] field aliasing on forwarded queries

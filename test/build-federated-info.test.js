@@ -16,7 +16,7 @@ const db = {
 
 const cases = [
   {
-    name: 'should federate an "hello world" service',
+    name: 'should federate a "hello world" service',
     schema: dedent`
     type Query {
       hello (greeting: String!): String
@@ -41,7 +41,7 @@ const cases = [
   },
 
   {
-    name: 'should federate an basic service with a custom type and @key directives',
+    name: 'should federate a basic service with a custom type and @key directives',
     schema: dedent`
     type Query {
       me: User
