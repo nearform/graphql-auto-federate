@@ -22,7 +22,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
     "fastify": "^3.29.0",
-    "get-port": "5.1.1",
+    "get-port": "6.1.2",
     "husky": "^8.0.1",
     "lint-staged": "^12.4.1",
     "mercurius": "^9.6.0",
