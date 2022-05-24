@@ -7,7 +7,7 @@
     "lint": "eslint .",
     "test": "tap test/*.test.js",
     "test:watch": "tap test/*.test.js -w",
-    "prepare": "husky install"
+    "prepare": "npx husky install"
   },
   "keywords": [
     "graphql",
