@@ -283,7 +283,7 @@ const cases = [
         },
         options: {
           auto: true,
-          type: {
+          resolvers: {
             User: {
               __resolveReference: self => db.users[self.id]
             }
@@ -325,7 +325,7 @@ const cases = [
         },
         options: {
           auto: true,
-          type: {
+          resolvers: {
             Post: {
               __resolveReference: self => db.posts[self.id]
             }
@@ -362,10 +362,12 @@ for (const { name, services, queries } of cases) {
     db.users = clone(db._users)
     db.posts = clone(db._posts)
   })
+
   t.test(name, async t => {
     const targets = [],
       federateds = []
     let gateway
+
     t.teardown(async () => {
       await helper.stopServices([
         gateway?.service,
@@ -384,6 +386,7 @@ for (const { name, services, queries } of cases) {
       targets.push(target)
       federateds.push(federated)
     }
+
     gateway = await helper.createGatewayService({
       services: federateds.map((f, i) => ({
         name: `service${i + 1}`,
