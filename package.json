@@ -6,7 +6,6 @@
   "scripts": {
     "lint": "eslint .",
     "test": "tap test/*.test.js",
-    "test:watch": "tap test/*.test.js -w",
     "prepare": "npx husky install"
   },
   "keywords": [

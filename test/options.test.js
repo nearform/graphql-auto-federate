@@ -16,6 +16,11 @@ const failureCases = [
     expected: 'url is required'
   },
   {
+    name: 'url must be valid',
+    url: 'http//localhost:3001',
+    expected: 'url must be valid'
+  },
+  {
     name: 'auto boolean',
     options: { auto: '' },
     expected: 'options auto must be a boolean'
