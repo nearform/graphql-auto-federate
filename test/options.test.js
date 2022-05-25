@@ -59,11 +59,6 @@ const failureCases = [
     name: 'resolvers entry must be an object',
     options: { resolvers: { User: '' } },
     expected: `options resolvers 'User' value must be an object`
-  },
-  {
-    name: 'resolvers entry must have a reference resolver',
-    options: { resolvers: { User: {} } },
-    expected: `options resolvers 'User' value must have a reference resolver`
   }
 ]
 
