@@ -15,7 +15,7 @@
   "author": "Simone Sanfratello <simone.sanfratello@nearform.com>",
   "license": "MIT",
   "devDependencies": {
-    "@commitlint/cli": "^17.0.0",
+    "@commitlint/cli": "^17.0.1",
     "@commitlint/config-conventional": "^17.0.0",
     "dedent": "^0.7.0",
     "eslint": "^8.16.0",
