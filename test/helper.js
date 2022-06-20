@@ -17,7 +17,7 @@ const helper = {
       loaders,
       jit: 1
     })
-    await service.listen(port)
+    await service.listen({ port })
     return { service, port }
   },
   async createFederatedService({ port, schema, resolvers, loaders }) {
@@ -33,7 +33,7 @@ const helper = {
       federationMetadata: true,
       jit: 1
     })
-    await service.listen(port)
+    await service.listen({ port })
     return { service, port }
   },
   async createGatewayService({ port, services }) {
@@ -46,7 +46,7 @@ const helper = {
       gateway: { services },
       jit: 1
     })
-    await service.listen(port)
+    await service.listen({ port })
     return { service, port }
   },
   async stopServices(services) {

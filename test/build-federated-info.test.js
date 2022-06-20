@@ -1,5 +1,6 @@
 'use strict'
 
+require('./setup')
 const t = require('tap')
 const dedent = require('dedent')
 const helper = require('./helper')
