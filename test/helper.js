@@ -3,6 +3,8 @@
 const fastify = require('fastify')
 const mercurius = require('mercurius')
 const undici = require('undici')
+const { mercuriusFederationPlugin } = require('@mercuriusjs/federation')
+const mercuriusGateway = require('@mercuriusjs/gateway')
 
 const helper = {
   async createService({ port, schema, resolvers, loaders }) {
@@ -26,11 +28,10 @@ const helper = {
     }
     const service = fastify()
 
-    service.register(mercurius, {
+    service.register(mercuriusFederationPlugin, {
       schema,
       resolvers: resolvers ?? {},
       loaders,
-      federationMetadata: true,
       jit: 1
     })
     await service.listen({ port })
@@ -42,7 +43,7 @@ const helper = {
     }
     const service = fastify()
 
-    service.register(mercurius, {
+    service.register(mercuriusGateway, {
       gateway: { services },
       jit: 1
     })
@@ -65,9 +66,8 @@ const helper = {
   async assertService(t, service) {
     const f = fastify()
 
-    f.register(mercurius, {
-      ...service,
-      federationMetadata: true
+    f.register(mercuriusFederationPlugin, {
+      ...service
     })
     await f.listen()
     await f.close()

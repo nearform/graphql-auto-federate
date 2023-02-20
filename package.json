@@ -17,6 +17,8 @@
   "devDependencies": {
     "@commitlint/cli": "^17.0.1",
     "@commitlint/config-conventional": "^17.0.0",
+    "@mercuriusjs/federation": "^1.0.1",
+    "@mercuriusjs/gateway": "^1.2.0",
     "dedent": "^0.7.0",
     "eslint": "^8.16.0",
     "eslint-config-prettier": "^8.5.0",
@@ -25,7 +27,7 @@
     "get-port": "6.1.2",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.0",
-    "mercurius": "^11.0.0",
+    "mercurius": "^12.1.0",
     "prettier": "^2.6.2",
     "tap": "^16.3.0"
   },
