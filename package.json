@@ -17,6 +17,8 @@
   "devDependencies": {
     "@commitlint/cli": "^17.0.1",
     "@commitlint/config-conventional": "^17.0.0",
+    "@mercuriusjs/federation": "^1.0.1",
+    "@mercuriusjs/gateway": "^1.2.0",
     "dedent": "^0.7.0",
     "eslint": "^8.16.0",
     "eslint-config-prettier": "^8.5.0",
@@ -33,8 +35,6 @@
     "*.{js,jsx}": "eslint --cache --fix"
   },
   "dependencies": {
-    "@mercuriusjs/federation": "^1.0.1",
-    "@mercuriusjs/gateway": "^1.2.0",
     "graphql": "^16.5.0",
     "merge-options": "^3.0.4",
     "rfdc": "^1.3.0",
