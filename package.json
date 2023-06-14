@@ -18,7 +18,7 @@
     "@commitlint/cli": "^17.0.1",
     "@commitlint/config-conventional": "^17.0.0",
     "@mercuriusjs/federation": "^2.0.0",
-    "@mercuriusjs/gateway": "^1.2.0",
+    "@mercuriusjs/gateway": "^2.0.0",
     "dedent": "^0.7.0",
     "eslint": "^8.16.0",
     "eslint-config-prettier": "^8.5.0",
