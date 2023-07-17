@@ -19,7 +19,7 @@
     "@commitlint/config-conventional": "^17.0.0",
     "@mercuriusjs/federation": "^2.0.0",
     "@mercuriusjs/gateway": "^2.0.0",
-    "dedent": "^0.7.0",
+    "dedent": "^1.0.2",
     "eslint": "^8.16.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
