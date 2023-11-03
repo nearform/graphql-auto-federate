@@ -1,6 +1,6 @@
 {
   "name": "graphql-auto-federate",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Automatically federate a GraphQL service",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,10 @@
     "test": "tap test/*.test.js",
     "prepare": "npx husky install"
   },
-  "keywords": ["graphql", "federation"],
+  "keywords": [
+    "graphql",
+    "federation"
+  ],
   "author": "Simone Sanfratello <simone.sanfratello@nearform.com>",
   "license": "MIT",
   "devDependencies": {
