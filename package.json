@@ -24,7 +24,7 @@
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
     "fastify": "^4.0.3",
-    "get-port": "7.0.0",
+    "get-port": "7.1.0",
     "husky": "^9.0.10",
     "lint-staged": "^15.0.1",
     "mercurius": "^13.0.0",
