@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint .",
     "test": "tap test/*.test.js",
-    "prepare": "npx husky install"
+    "prepare": "npx husky"
   },
   "keywords": [
     "graphql",
