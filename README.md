@@ -259,3 +259,5 @@ Automatic generation of federated schema supports
 - [ ] jsdoc and type check
 - [ ] expose `buildFederatedInfo` and document it
 - [ ] field aliasing on forwarded queries
+
+[![banner](https://raw.githubusercontent.com/nearform/.github/refs/heads/master/assets/os-banner-green.svg)](https://www.nearform.com/contact/?utm_source=open-source&utm_medium=banner&utm_campaign=os-project-pages)
