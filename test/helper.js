@@ -72,7 +72,7 @@ const helper = {
     await f.listen()
     await f.close()
 
-    t.pass()
+    t.assert.ok(true)
   }
 }
 

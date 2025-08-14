@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",
-    "test": "tap test/*.test.js",
+    "test": "node --test",
     "prepare": "npx husky"
   },
   "keywords": [

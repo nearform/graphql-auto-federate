@@ -1,6 +1,6 @@
 'use strict'
 
-const t = require('tap')
+const { test } = require('node:test')
 const dedent = require('dedent')
 const graphql = require('graphql')
 
@@ -216,17 +216,23 @@ const cases = [
 ]
 
 for (const { name, schema, resolvers, options, expected } of cases) {
-  t.test(name, async t => {
+  test(name, async t => {
     const result = autoOptions({
       options,
       schema: graphql.buildSchema(schema),
       resolvers
     })
 
-    t.same(result.type, expected.type)
+    t.assert.deepStrictEqual(result.type, expected.type)
     for (const type of Object.keys(expected.resolvers)) {
-      t.type(result.resolvers[type].__resolveReference, 'function')
-      t.type(expected.resolvers[type].__resolveReference, 'function')
+      t.assert.strictEqual(
+        typeof result.resolvers[type].__resolveReference,
+        'function'
+      )
+      t.assert.strictEqual(
+        typeof expected.resolvers[type].__resolveReference,
+        'function'
+      )
     }
   })
 }

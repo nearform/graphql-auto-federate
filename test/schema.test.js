@@ -1,6 +1,6 @@
 'use strict'
 
-const t = require('tap')
+const { test } = require('node:test')
 const dedent = require('dedent')
 const helper = require('./helper')
 
@@ -47,7 +47,7 @@ const cases = [
     type Query {
       me: User
       you: User
-    }      
+    }
     type User {
       id: ID!
       name: String!
@@ -83,7 +83,7 @@ const cases = [
     type Query {
       me: User
       you: User
-    }      
+    }
     type User {
       id: ID!
       name: String!
@@ -121,7 +121,7 @@ const cases = [
     schema: dedent`
     type Query {
       me: User
-    }      
+    }
     type User {
       id: ID!
       name: String!
@@ -170,23 +170,23 @@ const cases = [
       content: String
       author: User
     }
-    
+
     type Query {
       topPosts(count: Int): [Post]
     }
-    
+
     type User {
       id: ID!
       name: String
       posts: [Post]
       numberOfPosts: Int
     }
-    
+
     type Mutation {
       createPost(post: PostInput!): Post
       updateHello: String
     }
-    
+
     input PostInput {
       title: String!
       content: String!
@@ -252,10 +252,10 @@ const cases = [
 ]
 
 for (const { name, schema, expected, options } of cases) {
-  t.test(name, async t => {
+  test(name, async t => {
     const federated = buildFederatedInfo({ schema, options })
 
-    t.equal(federated.schema, expected)
+    t.assert.strictEqual(federated.schema, expected)
     await helper.assertService(t, federated)
   })
 }
