@@ -1,6 +1,6 @@
 'use strict'
 
-const t = require('tap')
+const { test } = require('node:test')
 const helper = require('./helper')
 const { buildFederatedInfo } = require('../lib/federate')
 
@@ -1208,12 +1208,12 @@ extend type Mutation {
   emailConfirmation (confirmation: String!): UsersPermissionsLoginPayload
 }`
 
-t.test('should generate a federated schema for strapi', async t => {
+test('should generate a federated schema for strapi', async t => {
   const federated = buildFederatedInfo({
     schema: strapiSchema,
     options: { auto: true }
   })
 
-  t.equal(federated.schema, strapiSchemaFederated)
+  t.assert.equal(federated.schema, strapiSchemaFederated)
   await helper.assertService(t, federated)
 })

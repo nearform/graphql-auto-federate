@@ -1,7 +1,7 @@
 'use strict'
 
 require('./setup')
-const t = require('tap')
+const { test, beforeEach, after } = require('node:test')
 const dedent = require('dedent')
 const clone = require('rfdc')()
 const helper = require('./helper')
@@ -480,17 +480,17 @@ const cases = [
 ]
 
 for (const { name, services, queries } of cases) {
-  t.beforeEach(() => {
+  beforeEach(() => {
     db.users = clone(db._users)
     db.posts = clone(db._posts)
   })
 
-  t.test(name, async t => {
+  test(name, async t => {
     const targets = [],
       federateds = []
     let gateway
 
-    t.teardown(async () => {
+    after(async () => {
       await helper.stopServices([
         gateway?.service,
         ...targets.map(s => s.service),
@@ -524,9 +524,9 @@ for (const { name, services, queries } of cases) {
       })
 
       if (q.expected.error) {
-        t.ok(result.errors)
+        t.assert.ok(result.errors)
       } else {
-        t.same(result.data, q.expected)
+        t.assert.deepStrictEqual(result.data, q.expected)
       }
     }
   })

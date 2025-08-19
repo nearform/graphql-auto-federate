@@ -1,7 +1,7 @@
 'use strict'
 
 require('./setup')
-const t = require('tap')
+const { test, after } = require('node:test')
 const dedent = require('dedent')
 const helper = require('./helper')
 
@@ -47,7 +47,7 @@ const cases = [
     type Query {
       me: User
       you: User
-    }      
+    }
     type User {
       id: ID!
       name: String!
@@ -101,9 +101,9 @@ const cases = [
 ]
 
 for (const { name, schema, resolvers, queries, options } of cases) {
-  t.test(name, async t => {
+  test(name, async t => {
     let federated, gateway
-    t.teardown(async () => {
+    after(async () => {
       await helper.stopServices([federated?.service, gateway?.service])
     })
 
@@ -119,7 +119,7 @@ for (const { name, schema, resolvers, queries, options } of cases) {
     const gatewayUrl = `http://localhost:${gateway.port}/graphql`
     for (const { query, variables, expected } of queries) {
       const result = await helper.query({ query, variables, url: gatewayUrl })
-      t.same(result.data, expected)
+      t.assert.deepStrictEqual(result.data, expected)
     }
   })
 }

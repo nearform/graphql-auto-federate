@@ -1,6 +1,6 @@
 'use strict'
 
-const t = require('tap')
+const { test } = require('node:test')
 const mergeOptions = require('merge-options').bind({ ignoreUndefined: true })
 
 const { buildFederatedService } = require('../')
@@ -73,12 +73,10 @@ for (const {
     options: caseOptions
   })
 
-  t.test(name, async t => {
-    try {
-      await buildFederatedService({ url, options })
-    } catch (err) {
-      t.match(err.message, `buildFederatedService: ${expected}`)
-    }
-    t.end()
-  })
+  test(name, t =>
+    t.assert.rejects(
+      () => buildFederatedService({ url, options }),
+      new Error(`buildFederatedService: ${expected}`)
+    )
+  )
 }
