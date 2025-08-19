@@ -71,8 +71,6 @@ const helper = {
     })
     await f.listen()
     await f.close()
-
-    t.assert.ok(true)
   }
 }
 
