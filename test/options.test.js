@@ -73,11 +73,10 @@ for (const {
     options: caseOptions
   })
 
-  test(name, async t => {
-    try {
-      await buildFederatedService({ url, options })
-    } catch (err) {
-      t.assert.strictEqual(err.message, `buildFederatedService: ${expected}`)
-    }
-  })
+  test(name, t =>
+    t.assert.rejects(
+      () => buildFederatedService({ url, options }),
+      new Error(`buildFederatedService: ${expected}`)
+    )
+  )
 }
