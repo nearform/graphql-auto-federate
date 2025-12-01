@@ -15,7 +15,7 @@
   "author": "Simone Sanfratello <simone.sanfratello@nearform.com>",
   "license": "MIT",
   "devDependencies": {
-    "@commitlint/cli": "^19.0.3",
+    "@commitlint/cli": "^20.1.0",
     "@commitlint/config-conventional": "^20.0.0",
     "@mercuriusjs/federation": "^3.0.0",
     "@mercuriusjs/gateway": "^3.0.0",
