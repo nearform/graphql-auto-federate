@@ -16,7 +16,7 @@
   "license": "MIT",
   "devDependencies": {
     "@commitlint/cli": "^20.1.0",
-    "@commitlint/config-conventional": "^20.0.0",
+    "@commitlint/config-conventional": "^21.2.0",
     "@eslint/js": "^9.39.5",
     "@mercuriusjs/federation": "^5.1.1",
     "@mercuriusjs/gateway": "^5.2.0",
