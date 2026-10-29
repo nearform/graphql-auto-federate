@@ -4,9 +4,16 @@ Automatically federate a GraphQL service
 
 ## Quick Start
 
+Install `graphql-auto-federate` alongside Mercurius' federation and gateway plugins:
+
+```sh
+npm install graphql-auto-federate @mercuriusjs/federation @mercuriusjs/gateway fastify
+```
+
 ```js
 const fastify = require('fastify')
-const mercurius = require('mercurius')
+const { mercuriusFederationPlugin } = require('@mercuriusjs/federation')
+const mercuriusGateway = require('@mercuriusjs/gateway')
 const { buildFederatedService } = require('graphql-auto-federate')
 
 const federated = await buildFederatedService({
@@ -14,19 +21,21 @@ const federated = await buildFederatedService({
 })
 
 const federatedService = fastify()
-federatedService.register(mercurius, {
-  ...federated,
-  federationMetadata: true,
+federatedService.register(mercuriusFederationPlugin, {
+  schema: federated.schema,
+  resolvers: federated.resolvers,
   jit: 1
 })
-await federatedService.listen(3001)
+await federatedService.listen({ port: 3001 })
 
 const gateway = fastify()
-gateway.register(mercurius, {
-  services: [{ name: 'auto', url: `http://localhost:3001/graphql` }],
+gateway.register(mercuriusGateway, {
+  gateway: {
+    services: [{ name: 'auto', url: `http://localhost:3001/graphql` }]
+  },
   jit: 1
 })
-await gateway.listen(3000)
+await gateway.listen({ port: 3000 })
 
 // query the gateway @ port 3000
 // curl -X POST -H 'content-type: application/json' -d '{ "query": "{ hello(greeting: \"ciao\") }" }' localhost:3000/graphql
